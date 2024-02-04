@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Hero} from "../../domain/Hero";
-import {NgFor, NgIf, UpperCasePipe} from "@angular/common";
+import {NgFor} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {HEROES} from "../mock-heroes";
-import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import {HeroService} from "../hero.service";
 import {MessageService} from "../message.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-heroes',
@@ -13,13 +12,12 @@ import {MessageService} from "../message.service";
   imports: [
     FormsModule,
     NgFor,
-    HeroDetailComponent
+    RouterLink
   ],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.css'
 })
 export class HeroesComponent implements OnInit{
-  selectedHero: Hero | undefined;
   heroes: Hero[] = [];
 
   constructor(private readonly heroService: HeroService, private readonly messageService: MessageService) {}
@@ -27,10 +25,5 @@ export class HeroesComponent implements OnInit{
   ngOnInit() {
     this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes);
-  }
-
-  onSelect(hero: Hero){
-    this.selectedHero = hero;
-    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   }
 }
